@@ -2,12 +2,12 @@ const CustomError = require("../extensions/custom-error");
 
 module.exports = function transform(arr) {
   if (!Array.isArray(arr)) throw "Error";
-  let finalArr = [], currArr = arr, except = ["--discard-next", "--discard-prev", "--double-next", "--double-prev"];
-  arr.map((elem, index) => {
+  let finalArr = [], currArr = arr, dontChangeArr = arr, except = ["--discard-next", "--discard-prev", "--double-next", "--double-prev"];
+  dontChangeArr.map((elem, index) => {
     if (!except.includes(elem)) finalArr.push(elem);
     else {
       if (elem === "--discard-next") {
-        if (index + 1 === arr.length) null;
+        if (index + 1 === dontChangeArr.length) null;
         else {
           currArr.splice(index + 1, 1);
         }
@@ -20,7 +20,7 @@ module.exports = function transform(arr) {
         }
       }
       if (elem === "--double-next") {
-        if (index + 1 === arr.length) null;
+        if (index + 1 === dontChangeArr.length) null;
         else {
           finalArr.push(currArr[index+1]);
         }
